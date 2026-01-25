@@ -1,0 +1,219 @@
+import styled from "styled-components";
+import { Btn1, TotalPos } from "../../../index";
+import { Device } from "../../../styles/breakpoints";
+import { v } from "../../../styles/variables";
+import { FaMoneyBillWave, FaCreditCard, FaExchangeAlt } from "react-icons/fa";
+import { MdAccountBalance } from "react-icons/md";
+
+export function AreaTecladoPos() {
+  return (
+    <Container>
+      <section className="areatipopago">
+        <TituloPago>Pago rápido por:</TituloPago>
+        <GridBotonesPago>
+          <BotonPago className="efectivo">
+            <IconWrapper className="efectivo-icon">
+              <FaMoneyBillWave />
+            </IconWrapper>
+            <span>Efectivo</span>
+          </BotonPago>
+          <BotonPago className="tarjeta">
+            <IconWrapper className="tarjeta-icon">
+              <FaCreditCard />
+            </IconWrapper>
+            <span>Tarjeta</span>
+          </BotonPago>
+          <BotonPago className="credito">
+            <IconWrapper className="credito-icon">
+              <MdAccountBalance />
+            </IconWrapper>
+            <span>Crédito</span>
+          </BotonPago>
+          <BotonPago className="mixto">
+            <IconWrapper className="mixto-icon">
+              <FaExchangeAlt />
+            </IconWrapper>
+            <span>Mixto</span>
+          </BotonPago>
+        </GridBotonesPago>
+      </section>
+      <section className="totales">
+        <div className="subtotal">
+            <LineaTotal>
+              <Label>Subtotal:</Label>
+              <Valor>Q20.00</Valor>
+            </LineaTotal>
+            <LineaTotal>
+              <Label>Descuento:</Label>
+              <ValorDescuento>Q0.00</ValorDescuento>
+            </LineaTotal>
+            <LineaTotal>
+              <Label>Impuesto:</Label>
+              <Valor>Q1.60</Valor>
+            </LineaTotal>
+        </div>
+      </section>
+      <TotalPos/>
+    </Container>
+  );
+}
+
+const Container = styled.div`
+  border: 2px solid ${(props) => props.theme.color2};
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  width: auto;
+  max-height: calc(100vh - 20px);
+  overflow-y: auto;
+  border-radius: 15px;
+  background: ${(props) => props.theme.bgcards};
+  padding: 12px;
+  gap: 12px;
+  z-index: 100;
+  
+  @media ${Device.desktop}{
+    position: relative;
+    bottom: initial;
+    left: initial;
+    right: initial;
+    padding: 15px;
+    gap: 15px;
+    max-height: none;
+    overflow-y: visible;
+  } 
+  
+  .areatipopago{
+    display: none;
+    @media ${Device.desktop}{
+      display: block;
+    }
+  }
+  
+  .totales{
+    display: flex;
+    flex-direction: column;
+    
+    .subtotal{
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px;
+      background: ${(props) => props.theme.bg2};
+      border-radius: 10px;
+      margin-bottom: 8px;
+      
+      @media ${Device.desktop}{
+        display: flex;
+      }
+    }
+  }
+`;
+
+const TituloPago = styled.h3`
+  font-size: 14px;
+  font-weight: 600;
+  color: ${(props) => props.theme.text};
+  margin: 0 0 10px 0;
+  text-align: left;
+`;
+
+const GridBotonesPago = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+`;
+
+const BotonPago = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 10px;
+  border: 2px solid ${v.colorPrincipal};
+  background: ${(props) => props.theme.bgcards};
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 13px;
+  font-weight: 600;
+  color: ${(props) => props.theme.text};
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(38, 54, 134, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &.efectivo {
+    border-color: #7aad52;
+  }
+  
+  &.tarjeta {
+    border-color: ${v.colorPrincipal};
+  }
+  
+  &.credito {
+    border-color: #f59674;
+  }
+  
+  &.mixto {
+    border-color: ${v.colorSecundario};
+  }
+`;
+
+const IconWrapper = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: white;
+  
+  &.efectivo-icon {
+    background: #7aad52;
+  }
+  
+  &.tarjeta-icon {
+    background: ${v.colorPrincipal};
+  }
+  
+  &.credito-icon {
+    background: #f59674;
+  }
+  
+  &.mixto-icon {
+    background: ${v.colorSecundario};
+  }
+`;
+
+const LineaTotal = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Label = styled.span`
+  font-size: 13px;
+  color: ${(props) => props.theme.text};
+  font-weight: 500;
+`;
+
+const Valor = styled.strong`
+  font-size: 14px;
+  color: ${(props) => props.theme.text};
+  font-weight: 600;
+`;
+
+const ValorDescuento = styled(Valor)`
+  color: ${v.rojo};
+`;
