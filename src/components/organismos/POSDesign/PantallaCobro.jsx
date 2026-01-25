@@ -25,6 +25,7 @@ export function PantallaCobro() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+  
   return (
     <Container>
       <section className="contentingresocobro">
