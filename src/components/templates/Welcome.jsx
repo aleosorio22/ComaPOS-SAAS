@@ -9,13 +9,13 @@ export function Welcome() {
   }
   return (
     <Container>
-      <section class="home">
-        <div class="description">
-          <h1 class="title">
-            <span class="gradient-text">BIENVENIDO AL</span> POS VENTAS CON
+      <section className="home">
+        <div className="description">
+          <h1 className="title">
+            <span className="gradient-text">BIENVENIDO AL</span> POS VENTAS CON
             REACT.JS
           </h1>
-          <p class="paragraph">
+          <p className="paragraph">
             Este proyecto-curso esta en construcción, pueder probar la
             configuración y VENTAS por ahora. Si desean ser parte del proyecto
             pueden inscribirse en el botón INSCRIBIRSE:
@@ -24,14 +24,14 @@ export function Welcome() {
             <a
               target="_blank"
               href="https://www.udemy.com/course/punto-de-venta-con-react-full-stack/?couponCode=SOYINVISIBLE"
-              class="btn"
+              className="btn"
               aria-label="submit"
             >
               <span>Inscribirse</span>
               <ion-icon name="arrow-forward-outline"></ion-icon>
             </a>
             <a
-             class="btn"
+             className="btn"
               onClick={cerrar}
               aria-label="submit"
             >
@@ -41,42 +41,42 @@ export function Welcome() {
           </ContainerBtn>
         </div>
 
-        <div class="users-color-container">
-          <span class="item"></span>
+        <div className="users-color-container">
+          <span className="item"></span>
           <img
-            class="item"
+            className="item"
             src="https://img.freepik.com/fotos-premium/cerdo-fondo-rosa-palabra-cerdo_593294-5557.jpg"
             alt=""
           />
-          <span class="item"></span>
+          <span className="item"></span>
           <img
-            class="item"
+            className="item"
             src="https://img.freepik.com/fotos-premium/cerdo-gafas-sol-sienta-sobre-fondo-rosa_832479-1269.jpg?w=360"
             alt=""
           />
 
           <img
-            class="item"
+            className="item"
             src="https://img.freepik.com/fotos-premium/cerdo-fondo-rosa_832479-1261.jpg"
             alt=""
           />
-          <span class="item"></span>
+          <span className="item"></span>
           <img
-            class="item"
+            className="item"
             src="https://img.freepik.com/fotos-premium/lindo-cerdo-sobre-fondo-amarillo_917664-12900.jpg"
             alt=""
           />
-          <span class="item"></span>
+          <span className="item"></span>
 
-          <span class="item"></span>
+          <span className="item"></span>
           <img
-            class="item"
+            className="item"
             src="https://png.pngtree.com/thumb_back/fw800/background/20230818/pngtree-a-pink-pig-with-pigshaped-bag-image_13062633.jpg"
             alt=""
           />
-          <span class="item"></span>
+          <span className="item"></span>
           <img
-            class="item"
+            className="item"
             src="https://img.freepik.com/fotos-premium/cerdo-fondo-rojo-camiseta-que-dice-soy-cerdo_919652-1544.jpg"
             alt=""
           />

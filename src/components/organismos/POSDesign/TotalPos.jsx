@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { v } from "../../../styles/variables";
-import { Btn1, useCartVentasStore } from "../../../index";
+import { Btn1, useCartVentasStore, useEmpresaStore } from "../../../index";
 import {Device} from "../../../styles/breakpoints";
 import { Icon } from "@iconify/react";
 import {FormatearNumeroDinero} from "../../../utils/Conversiones";
 
 export function TotalPos() {
   const {total, resetState} = useCartVentasStore();
+  const {dataempresa} = useEmpresaStore();
   return (
     <Container>
         <section className="imagen">
@@ -27,7 +28,7 @@ export function TotalPos() {
                     color="#ffffff"
                 />
             </section>
-            <span>{FormatearNumeroDinero(total)}</span>
+            <span>{FormatearNumeroDinero(total, dataempresa?.currency, dataempresa?.iso)}</span>
             <button onClick={resetState}>Reset</button>
         </section>
     </Container>

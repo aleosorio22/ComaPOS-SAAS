@@ -1,15 +1,35 @@
 import styled from "styled-components";
 import { useCartVentasStore } from "../../../store/CartVentasStore";
 import { Icon } from "@iconify/react";
-import { Btn1, FormatearNumeroDinero, InputText, useDetalleVentasStore, useEmpresaStore, useSucursalesStore, useUsuariosStore, useVentasStore } from "../../../index";
-import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
+import { Btn1, FormatearNumeroDinero, InputText, useClientesProveedoresStore, useDetalleVentasStore, useEmpresaStore, useSucursalesStore, useUsuariosStore, useVentasStore } from "../../../index";
+import { useEffect, useState, forwardRef, useImperativeHandle, useMemo } from "react";
 import { toast } from "sonner";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { PanelBuscador } from "./PanelBuscador";
+
+// Hook de debounce para optimizar búsquedas
+function useDebounce(value, delay = 800) {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+}
 
 export const IngresoCobro = forwardRef((props, ref) => {
     
     const {tipoCobro, total, items, setStateCheckout, resetState } = useCartVentasStore();
+
     //valores a calcular
+    const [stateBuscadorClientes, setStateBuscadorClientes] = useState(false);
     const [precioVenta, setPrecioVenta] = useState(total);
     const [valorTarjeta, setValorTarjeta] = useState(tipoCobro==="Tarjeta"?total:0);
     const [valorEfectivo, setValorEfectivo] = useState(tipoCobro==="Efectivo"?total:0);
@@ -21,10 +41,34 @@ export const IngresoCobro = forwardRef((props, ref) => {
     
     //datos de la store
     const {dataUsuarios} = useUsuariosStore();
-    const {dataSucursalesAsignadas} = useSucursalesStore();
+    const {sucursalesAsignadasItemSelect} = useSucursalesStore();
     const {dataempresa} = useEmpresaStore();
     const {ventaid, insertarVentas, resetearVentas} = useVentasStore();
     const {insertarDetalleVentas} = useDetalleVentasStore();
+    const {buscarCP, setBuscador, buscador, selectCP, cpItemSelect} = useClientesProveedoresStore();
+    
+    // Aplicar debounce: espera 800ms después de que el usuario deje de escribir
+    const debouncedBuscador = useDebounce(buscador, 800);
+    
+    const {data: dataBuscadorCliente, isLoading: isLoadingBuscadorCliente} = useQuery({
+        queryKey:["Buscar cliente para venta", [dataempresa?.empresa_id, "Cliente", debouncedBuscador]],
+        queryFn: () => buscarCP({empresa_id: dataempresa?.empresa_id, cp_tipo: "Cliente", buscador: debouncedBuscador}),
+        enabled: !!dataempresa?.empresa_id && stateBuscadorClientes,
+        refetchOnWindowFocus: false,
+    });
+
+    // Procesar datos para agregar documento con lógica de fallback
+    const dataBuscadorClienteProcesada = useMemo(() => {
+        if(!dataBuscadorCliente) return [];
+        return dataBuscadorCliente.map(cliente => ({
+            ...cliente,
+            documento_display: 
+                (cliente.cp_id_fiscal && cliente.cp_id_fiscal !== "-") ? cliente.cp_id_fiscal :
+                (cliente.cp_id_nacional && cliente.cp_id_nacional !== "-") ? cliente.cp_id_nacional :
+                (cliente.cp_telefono && cliente.cp_telefono !== "-") ? cliente.cp_telefono :
+                "sin documento"
+        }));
+    }, [dataBuscadorCliente]);
 
     //funcion para calcular vuelto y restante
     const calcularVueltoYRestante = () => {
@@ -78,8 +122,9 @@ export const IngresoCobro = forwardRef((props, ref) => {
     
     async function confirmarVentas(){
         const pVentas ={
+            cliente_id: selectCP?.cp_id || null,
             usuario_id: dataUsuarios?.usuario_id,
-            sucursal_id: dataSucursalesAsignadas?.sucursal_id,
+            sucursal_id: sucursalesAsignadasItemSelect?.sucursal_id,
             empresa_id: dataempresa?.empresa_id,
             venta_estado: "Confirmada",
             venta_cambio: cambio,
@@ -117,7 +162,11 @@ export const IngresoCobro = forwardRef((props, ref) => {
                       <span className="tipocobro">Tipo de cobro: {tipoCobro}</span>
                       <Icon icon="mdi:cash-register"/>
                       <span>Cliente:</span>
-                      <span className="cliente">Consumidor Final</span>
+                      <EditButton onClick={()=>setStateBuscadorClientes(!stateBuscadorClientes)}>
+
+                        <Icon icon="mdi:pencil" className="icono"/>
+                      </EditButton>
+                      <span className="cliente">{cpItemSelect?.cp_nombres || "Consumidor Final"}</span>
                     </section>
                       <Linea />
                     <section className="area2">
@@ -187,6 +236,18 @@ export const IngresoCobro = forwardRef((props, ref) => {
                               width="100%"
                           />
                       </section>  
+                      {
+                        stateBuscadorClientes && (
+                            <PanelBuscador 
+                                data={dataBuscadorClienteProcesada} 
+                                selector={selectCP} 
+                                setBuscador={setBuscador} 
+                                displayField="cp_nombres" 
+                                displayField2="documento_display"
+                                setStateBuscador={()=> setStateBuscadorClientes(!stateBuscadorClientes)}
+                            />
+                        )
+                      }
                 </>
             )
         }
@@ -286,3 +347,20 @@ const Linea= styled.span`
     border-bottom: 1px dashed #d4d4d4;
 `
 
+const EditButton = styled.button`
+    background-color: ${({ theme }) => theme.color2};
+    color: ${({ theme }) => theme.text};
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    .icono{
+        font-size:20px;
+    }
+
+`

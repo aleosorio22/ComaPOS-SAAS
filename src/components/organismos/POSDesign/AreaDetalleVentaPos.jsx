@@ -3,12 +3,13 @@ import {blur_in} from "../../../styles/keyframes";
 import {v} from "../../../styles/variables";
 import { Icono } from "../../atomos/Icono";
 import { FormatearNumeroDinero } from "../../../utils/Conversiones";
-import {Btn1, Lottieanimation, useCartVentasStore} from "../../../index"
+import {Btn1, Lottieanimation, useCartVentasStore, useEmpresaStore} from "../../../index"
 import animacionvacio from "../../../assets/vacioanimacion.json"
 import { Icon } from "@iconify/react";
 
 export function AreaDetalleVentaPos() {
     const {items, addCantidadItem, restarCantidadItem, removeItem} = useCartVentasStore();
+    const {dataempresa} = useEmpresaStore();
     
   return (
     <AreaDetalleVenta className={items?.length>0?"":"animacion"}>
@@ -35,14 +36,17 @@ export function AreaDetalleVentaPos() {
                 </article>
                 <article className="contentdescripcion">
                     <span className="descripcion">{item._descripcion}</span>
-                    <span className="importe">{FormatearNumeroDinero(item._precio_venta)}</span>                   
+                    <span className="importe">
+                        <strong>Precio unitario: </strong>
+                        {FormatearNumeroDinero(item._precio_venta, dataempresa?.currency, dataempresa?.iso)}
+                    </span>                   
                 </article>
                 <article className="contentbotones">
 
 
                 </article>
                 <article className="contenttotal">
-                    <span className="precio">{FormatearNumeroDinero(item._total)}</span>
+                    <span className="precio">{FormatearNumeroDinero(item._total, dataempresa?.currency, dataempresa?.iso)}</span>
                     <span className="delete" onClick={() => removeItem(item)}>
                         <Icono><v.iconeliminarTabla /></Icono>
                     </span> 

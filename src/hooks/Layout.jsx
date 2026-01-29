@@ -1,10 +1,8 @@
 import styled from "styled-components";
-import { Sidebar, SwitchHamburguesa, useUsuariosStore, Spinner1, useEmpresaStore, useSucursalesStore, } from "../index";
+import { Sidebar, SwitchHamburguesa, useUsuariosStore, Spinner1, useEmpresaStore, useSucursalesStore, MenuMovil, } from "../index";
 import { useState } from "react";
 import { Device } from "../styles/breakpoints";
 import { useQuery } from '@tanstack/react-query';
-import { MenuMovil } from "../components/organismos/sidebar/MenuMovil";
-
 
 export function Layout({children}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -14,7 +12,7 @@ export function Layout({children}) {
   const {mostrarempresa} = useEmpresaStore();
   const {mostrarSucursalesAsignadas} = useSucursalesStore();
 
-    const {isLoading, error} = useQuery({
+    useQuery({
         queryKey: ["mostrar usuarios"],
         queryFn: mostrarUsuarios,
         refetchOnWindowFocus: false
@@ -26,7 +24,7 @@ export function Layout({children}) {
       refetchOnWindowFocus: false
     });
     
-    useQuery({
+    const {isLoading, error} =useQuery({
         queryKey: ["mostrar empresa", dataUsuarios?.usuario_id],
         queryFn: ()=> {
             return mostrarempresa({_usuario_id: dataUsuarios?.usuario_id});

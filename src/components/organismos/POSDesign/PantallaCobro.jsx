@@ -12,7 +12,11 @@ export function PantallaCobro() {
       if (event.key === 'Enter') {
         event.preventDefault(); // Evitar la acción predeterminada
         if(ingresoCobroRef.current){
-          ingresoCobroRef.current.mutateAsync();
+          // Solo ejecutar si no está ya en proceso
+          const mutationState = ingresoCobroRef.current;
+          if(mutationState && !mutationState.isPending){
+            ingresoCobroRef.current.mutateAsync();
+          }
         }
       }
     };
@@ -25,7 +29,7 @@ export function PantallaCobro() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-  
+
   return (
     <Container>
       <section className="contentingresocobro">

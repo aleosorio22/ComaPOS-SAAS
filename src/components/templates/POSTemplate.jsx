@@ -9,12 +9,12 @@ export function POSTemplate() {
     const {stateCheckout} = useCartVentasStore();
   return (
     <Container>
-        <Toaster richColors position="top-center"/>
         {
             stateCheckout && <PantallaCobro/>
         }
         <HeaderPos/>
         <Main>
+            <Toaster richColors position="top-center"/>
             <AreaDetalleVentaPos/>
             <AreaTecladoPos/>
         </Main>
