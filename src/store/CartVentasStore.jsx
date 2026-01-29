@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useClientesProveedoresStore } from "./ClientesProveedoresStore";
 
 const initialState = {
   items: [],
@@ -56,7 +57,12 @@ export const useCartVentasStore = create(
             total: calcularTotal(updatedItems)
           };
         }),
-      resetState: () => set(initialState),
+      resetState: () => {
+        const {selectCP} = useClientesProveedoresStore.getState();
+        selectCP([])
+        set(initialState)
+        
+      },
       addCantidadItem: (p) =>
         set((state) => {
           const updatedItems = state.items.map((item) => {

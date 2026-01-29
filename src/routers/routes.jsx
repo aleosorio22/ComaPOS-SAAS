@@ -1,5 +1,5 @@
-import {Routes, Route} from 'react-router-dom';
-import { Home, Login, ProtectedRoute, Configuraciones, Categorias,  Productos, POS, Layout, PageNot } from '../index';
+import {Routes, Route, Navigate} from 'react-router-dom';
+import { Home, Login, ProtectedRoute, Configuraciones, Categorias,  Productos, POS, Layout, PageNot, Empresa, BasicosConfig, MonedaConfig, ClientesProveedores} from '../index';
 
 
 export function MyRoutes(){
@@ -39,6 +39,31 @@ export function MyRoutes(){
                     <ProtectedRoute accesBy="authenticated">
                         <Layout>
                             <Productos/>
+                        </Layout>
+                    </ProtectedRoute>}
+                />
+                <Route path="/configuracion/empresa" element={
+                    <ProtectedRoute accesBy="authenticated">
+                        <Layout>
+                            <Empresa/>
+                        </Layout>
+                    </ProtectedRoute>}
+                >
+                    <Route index element={<Navigate to="empresabasicos"/>}/>
+                    <Route index path='empresabasicos' element={<BasicosConfig/>}/>
+                    <Route path='monedaconfig' element={<MonedaConfig/>}/>
+                </Route>
+                <Route path="/configuracion/clientes" element={
+                    <ProtectedRoute accesBy="authenticated">
+                        <Layout>
+                            <ClientesProveedores />
+                        </Layout>
+                    </ProtectedRoute>}
+                />
+                <Route path="/configuracion/proveedores" element={
+                    <ProtectedRoute accesBy="authenticated">
+                        <Layout>
+                            <ClientesProveedores/>
                         </Layout>
                     </ProtectedRoute>}
                 />
