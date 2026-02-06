@@ -26,3 +26,16 @@ export function FormatearNumeroDinero(numero, currency, iso) {
   const numeroFormateado = numero.toLocaleString(esiso,{style : "currency", currency: `${currency}`});
   return numeroFormateado;
 }
+
+export  const urlToBase64 = async(imageUrl)=>{
+  const response = await fetch(imageUrl)
+  const blob = await response.blob()
+  const reader = new FileReader()
+  return new Promise ((resolve,reject)=>{
+    reader.onloadend=()=>{
+      resolve(reader.result)
+    }
+    reader.onerror = reject;
+    reader.readAsDataURL(blob)
+  })
+}

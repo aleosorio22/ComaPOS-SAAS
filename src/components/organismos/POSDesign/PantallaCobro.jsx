@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { IngresoCobro, useCartVentasStore } from "../../../index";
+import { IngresoCobro, useCartVentasStore, VisorTicket } from "../../../index";
 
 export function PantallaCobro() {
   const [stateVerTicket, setStateVerTicket] = useState(false);
@@ -33,6 +33,7 @@ export function PantallaCobro() {
   return (
     <Container>
       <section className="contentingresocobro">
+        {stateVerTicket && <VisorTicket setState={setStateVerTicket}/>}
         <article className="contentverticket" onClick={()=>setStateVerTicket(!stateVerTicket)}>
           <span>{stateVerTicket ? "ocultar":"mostrar"} ticket</span>
           {

@@ -1,5 +1,5 @@
 import {Routes, Route, Navigate} from 'react-router-dom';
-import { Home, Login, ProtectedRoute, Configuraciones, Categorias,  Productos, POS, Layout, PageNot, Empresa, BasicosConfig, MonedaConfig, ClientesProveedores} from '../index';
+import { Home, Login, ProtectedRoute, Configuraciones, Categorias,  Productos, POS, Layout, PageNot, Empresa, BasicosConfig, MonedaConfig, ClientesProveedores, CajaTemplate} from '../index';
 
 
 export function MyRoutes(){
@@ -71,6 +71,13 @@ export function MyRoutes(){
                     <ProtectedRoute accesBy="authenticated">
                         <Layout>
                             <POS/>
+                        </Layout>
+                    </ProtectedRoute>}
+                />
+                <Route path="/caja" element={
+                    <ProtectedRoute accesBy="authenticated">
+                        <Layout>
+                            <CajaTemplate/>
                         </Layout>
                     </ProtectedRoute>}
                 />
