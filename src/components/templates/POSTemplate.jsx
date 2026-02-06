@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Device } from "../../styles/breakpoints";
 import {v} from "../../styles/variables";
-import { AreaDetalleVentaPos, AreaTecladoPos, Btn1, FooterPos, HeaderPos, InputText2, PantallaCobro, Reloj, useCartVentasStore } from "../../index";
+import { AreaDetalleVentaPos, AreaTecladoPos, Btn1, FooterPos, HeaderPos, InputText2, PantallaCobro, PantallaIngresoSalidaDinero, Reloj, useCartVentasStore } from "../../index";
 import { blur_in } from "../../styles/keyframes";
 import { Toaster } from 'sonner';
 
@@ -19,6 +19,7 @@ export function POSTemplate() {
             <AreaTecladoPos/>
         </Main>
         <FooterPos/>
+        <PantallaIngresoSalidaDinero/>
     </Container>
   );
 }

@@ -220,9 +220,9 @@ export const IngresoCobro = forwardRef((props, ref) => {
                           <span className="restante">Restante:</span>
                       </article>
                       <article>
-                          <span className="total">{FormatearNumeroDinero(total)}</span>
-                          <span>{cambio}</span>
-                          <span>{restante}</span>
+                          <span className="total">{FormatearNumeroDinero(total, dataempresa?.currency, dataempresa?.iso)}</span>
+                          <span>{FormatearNumeroDinero(cambio, dataempresa?.currency, dataempresa?.iso)}</span>
+                          <span>{FormatearNumeroDinero(restante, dataempresa?.currency, dataempresa?.iso)}</span>
                       </article>
                     </section>
                     <Linea/>  

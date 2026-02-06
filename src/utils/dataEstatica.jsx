@@ -33,8 +33,13 @@ export const LinksArray = [
   },
   {
     label: "VENDER",
-    icon: "material-symbols:point-of-sale-rounded",
+    icon: "fa7-solid:hand-holding-dollar",
     to: "/pos",
+  },
+  {
+    label: "Caja",
+    icon: "fa7-solid:cash-register",
+    to: "/caja",
   },
   {
     label: "Kardex",
