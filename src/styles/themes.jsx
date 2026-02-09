@@ -38,6 +38,7 @@ export const Light = {
   colortitlecard: "#363637",
   colorsubtitlecard: "#080808",
   colorPrincipal: "#263686",
+  colorSecundario: "#89CBA6",
   color1: "#3B82F6",
   color2:"#E5E5E5"
 };
@@ -81,6 +82,7 @@ export const Dark = {
   colorSubtitle: "#b7b7b7",
   colorScroll: "#434343",
   colorPrincipal: "#263686",
+  colorSecundario: "#89CBA6",
   color1: "#1cb0f6",
   color2:"#37464F"
 };
